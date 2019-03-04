@@ -14,13 +14,16 @@ import java.util.List;
 @ConfigurationProperties(prefix="amazon")
 public class ReadingListController {
 	
-	private String associateId;
+	//private String associateId;
 	
 	private ReadingListRepository readingListRepository;
+	
+	private AmazonProperties amazonProperties;
 
 	@Autowired
-	public ReadingListController(ReadingListRepository readingListRepository) {
+	public ReadingListController(ReadingListRepository readingListRepository, AmazonProperties amazonProperties) {
 		this.readingListRepository = readingListRepository;
+		this.amazonProperties = amazonProperties;
 	}
 
 	@RequestMapping(value = "/{reader}", method = RequestMethod.GET)
@@ -29,7 +32,7 @@ public class ReadingListController {
 		if (readingList != null) {
 			model.addAttribute("books", readingList);
 			model.addAttribute("reader", reader);
-			model.addAttribute("amazonID", associateId);
+			model.addAttribute("amazonID", amazonProperties.getAssociateID());
 		}
 		return "readingList";
 	}
@@ -41,8 +44,9 @@ public class ReadingListController {
 		return "redirect:/{reader}";
 	}
 	
-	public void setAssociateId(String associateId) {
-		this.associateId = associateId;
-	}
+	/*
+	 * public void setAssociateId(String associateId) { this.associateId =
+	 * associateId; }
+	 */
 
 }
